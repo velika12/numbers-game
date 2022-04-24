@@ -7,7 +7,13 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GameField {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    
     private final int size;
     private Random rand = new Random(48);
 
@@ -40,7 +46,7 @@ public class GameField {
     }
 
     private void spawnNumber() {
-        System.out.println("Free cells: " + freeCells.size());
+        log.info("Free cells: " + freeCells.size());
 
         int freeCellIndex = rand.nextInt(freeCells.size());
         Cell cell = freeCells.get(freeCellIndex);
@@ -48,7 +54,7 @@ public class GameField {
         int number = generateNumber();
         cell.setValue(number);
 
-        System.out.printf("Spawned number=%d row=%d column=%d\n", number, cell.getRowIndex(), cell.getColumnIndex());
+        log.info("Spawned number={} row={} column={}", number, cell.getRowIndex(), cell.getColumnIndex());
     }
 
     private int generateNumber() {
@@ -58,7 +64,7 @@ public class GameField {
 
     public void draw() {
         for (final Cell[] row : fieldRows) {
-            System.out.println(Arrays.toString(row));
+            log.info(Arrays.toString(row));
         }
     }
 

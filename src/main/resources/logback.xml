@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <property name="LOGS_PATH" value="/home/velika12/Projects/my-projects/numbers-game/logs" />
+
+  <appender name="FILE-GAME" class="ch.qos.logback.classic.sift.SiftingAppender">
+
+    <!-- This is MDC value -->
+    <!-- We will assign a value to 'gameId' via Java code -->
+    <discriminator>
+      <key>gameId</key>
+      <defaultValue>0</defaultValue>
+    </discriminator>
+
+    <sift>
+      <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOGS_PATH}/${gameId}.log</file>
+        <append>true</append>
+        <!-- set immediateFlush to false for much higher logging throughput -->
+        <immediateFlush>true</immediateFlush>
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+          <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+      </appender>
+    </sift>
+  </appender>
+
+  <appender name="ASYNC-FILE-GAME" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="FILE-GAME" />
+  </appender>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>
+        %-5level %logger{36} - %msg%n
+      </Pattern>
+    </layout>
+  </appender>
+
+  <appender name="ASYNC-STDOUT" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="STDOUT" />
+  </appender>
+
+  <logger name="com.velika12.numbers" level="debug"
+          additivity="false">
+    <appender-ref ref="ASYNC-FILE-GAME" />
+    <appender-ref ref="ASYNC-STDOUT" />
+  </logger>
+
+  <root level="error">
+    <appender-ref ref="ASYNC-STDOUT" />
+  </root>
+
+</configuration>

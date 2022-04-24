@@ -1,6 +1,11 @@
 package com.velika12.numbers.game;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Game {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private int totalScore = 0;
     private int numberOfMoves = 0;
@@ -21,16 +26,16 @@ public class Game {
     }
 
     public void play(Direction direction) {
-        System.out.println(++numberOfMoves + " - Moving " + direction);
+        log.info(++numberOfMoves + " - Moving " + direction);
         totalScore += gameField.move(direction);
         display();
     }
 
     private void display() {
-        System.out.println("----------------------------");
-        System.out.println("Total score: " + totalScore);
+        log.info("----------------------------");
+        log.info("Total score: " + totalScore);
         gameField.draw();
-        System.out.println("----------------------------");
+        log.info("----------------------------");
     }
 
     public boolean isOver() {
