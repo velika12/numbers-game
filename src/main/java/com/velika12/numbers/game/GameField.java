@@ -62,21 +62,33 @@ public class GameField {
         }
     }
 
+    public int[][] get() {
+        int[][] fieldCopy = new int[size][];
+        for (int i = 0; i < size; i++) {
+            fieldCopy[i] = new int[size];
+            for (int j = 0; j < size; j++) {
+                fieldCopy[i][j] = fieldRows[i][j].getValue();
+            }
+        }
+
+        return fieldCopy;
+    }
+
     public boolean isFilled() {
         return freeCells.isEmpty();
     }
 
     public boolean isCollapseImpossible() {
-        for (int i = 0; i < fieldRows.length; i++) {
-            for (int j = 0; j < fieldRows.length; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 Cell current = fieldRows[i][j];
-                if (j + 1 < fieldRows.length) {
+                if (j + 1 < size) {
                     Cell right = fieldRows[i][j + 1];
                     if (current.getValue() == right.getValue()) {
                         return false;
                     }
                 }
-                if (i + 1 < fieldRows.length) {
+                if (i + 1 < size) {
                     Cell bottom = fieldRows[i + 1][j];
                     if (current.getValue() == bottom.getValue()) {
                         return false;

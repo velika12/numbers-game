@@ -12,6 +12,14 @@ public class Game {
         display();
     }
 
+    public int[][] getField() {
+        return gameField.get();
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
     public void play(Direction direction) {
         System.out.println(++numberOfMoves + " - Moving " + direction);
         totalScore += gameField.move(direction);
