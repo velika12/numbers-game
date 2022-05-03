@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2048 Game!</title>
+
+    <style>
+        #over {
+            display: none;
+        }
+        .row {
+            padding: 4px;
+        }
+        .cell {
+            background: #dadab3;
+            height: 100px;
+            width: 100px;
+            display: inline-block;
+            font-size: 5em;
+            text-align: center;
+        }
+    </style>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            const score = document.getElementById("score");
+            const turn = document.getElementById("turn");
+            const cells = document.getElementsByClassName("cell");
+            var gameId;
+
+            function reloadField(obj) {
+                gameId = obj.gameId;
+
+                score.innerText = obj.totalScore;
+                turn.innerText = obj.turnNumber;
+
+                Array.from(cells).forEach((cell, index) => {
+                    const x = Math.floor(index / 4);
+                    const y = index % 4;
+
+                    cell.innerText = obj.gameField[x][y];
+                });
+
+                if (obj.gameOver == true) {
+                    document.getElementById("over").style.display = 'inline';
+                    document.onkeydown = function(e) { e.preventDefault(); }
+                }
+            }
+
+            function start() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", '/games', true);
+                xhr.getResponseHeader("Content-type", "application/json");
+
+                xhr.onload = function() {
+                    const obj = JSON.parse(this.responseText);
+                    reloadField(obj);
+                }
+
+                xhr.send();
+            }
+
+            function play(direction) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", '/games/' + gameId, true);
+                xhr.setRequestHeader("Content-type", "application/json");
+                xhr.getResponseHeader("Content-type", "application/json");
+
+                xhr.onload = function() {
+                    const obj = JSON.parse(this.responseText);
+                    reloadField(obj);
+                }
+
+                xhr.send(JSON.stringify(direction));
+            }
+
+            document.onkeydown = function(e) {
+                switch(e.which) {
+                    case 37: // left
+                    play("LEFT");
+                    break;
+
+                    case 38: // up
+                    play("UP");
+                    break;
+
+                    case 39: // right
+                    play("RIGHT");
+                    break;
+
+                    case 40: // down
+                    play("DOWN");
+                    break;
+
+                    default: return; // exit this handler for other keys
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            };
+
+            start();
+        }
+    </script>
+</head>
+<body>
+    <h1>
+        2048 Game!
+    </h1>
+    <div>Total score: <span id="score">0</span></div>
+    <div>Turn: <span id="turn">0</span></div>
+    <div id="over">Game Over!</div>
+    <div class="field">
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell" ></div>
+            <div class="cell"></div>
+        </div>
+        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+    </div>
+</body>
+</html>

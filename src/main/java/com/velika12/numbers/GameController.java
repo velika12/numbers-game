@@ -8,27 +8,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.velika12.numbers.game.Direction;
 
 @RestController
+@RequestMapping("games")
 public class GameController {
 
     @Autowired
     private GameService gameService;
 
-    @GetMapping("/")
-    public String index() {
-        return "2048 Game!";
-    }
-
-    @PostMapping("/game")
+    @PostMapping
     public GameModel startGame() {
         return gameService.startGame();
     }
 
-    @GetMapping("/game/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<GameModel> loadGame(@PathVariable String id) {
         GameModel result = gameService.loadGame(id);
         if (result == null) {
@@ -38,7 +35,7 @@ public class GameController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PutMapping("/game/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<GameModel> playGame(@PathVariable String id, @RequestBody Direction direction) {
 
         Boolean gameOver = gameService.isGameOver(id);
