@@ -25,6 +25,10 @@ public class Game {
         return totalScore;
     }
 
+    public int getNumberOfMoves() {
+        return numberOfMoves;
+    }
+
     public void play(Direction direction) {
         log.info(++numberOfMoves + " - Moving " + direction);
         totalScore += gameField.move(direction);

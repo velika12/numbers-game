@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import com.velika12.numbers.game.Direction;
@@ -18,14 +17,10 @@ public class GameService {
     public GameModel startGame() {
         String gameId = UUID.randomUUID().toString();
 
-        MDC.put("gameId", gameId);
-
         Game game = new Game();
         gameMap.put(gameId, game);
 
-        MDC.remove("gameId");
-
-        return new GameModel(gameId, game.getField(), game.getTotalScore(), game.isOver());
+        return new GameModel(gameId, game);
     }
 
     public GameModel loadGame(String gameId) {
@@ -35,26 +30,23 @@ public class GameService {
             return null;
         }
 
-        return new GameModel(gameId, game.getField(), game.getTotalScore(), game.isOver());
+        return new GameModel(gameId, game);
     }
 
     public GameModel playGame(String gameId, Direction direction) {
         Game game = gameMap.get(gameId);
 
-        if (game == null) {
+        if (game == null || game.isOver()) {
             return null;
-        }
-
-        MDC.put("gameId", gameId);
-
-        if (game.isOver()) {
-            return new GameModel(gameId, game.getField(), game.getTotalScore(), game.isOver());
         }
 
         game.play(direction);
 
-        MDC.remove("gameId");
+        return new GameModel(gameId, game);
+    }
 
-        return new GameModel(gameId, game.getField(), game.getTotalScore(), game.isOver());
+    public Boolean isGameOver(String gameId) {
+        Game game = gameMap.get(gameId);
+        return game == null ? null : game.isOver();
     }
 }

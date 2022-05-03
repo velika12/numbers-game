@@ -40,10 +40,15 @@ public class GameController {
 
     @PutMapping("/game/{id}")
     public ResponseEntity<GameModel> playGame(@PathVariable String id, @RequestBody Direction direction) {
-        GameModel result = gameService.playGame(id, direction);
-        if (result == null) {
+
+        Boolean gameOver = gameService.isGameOver(id);
+        if (gameOver == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (gameOver.equals(true)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        GameModel result = gameService.playGame(id, direction);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
