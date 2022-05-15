@@ -2,26 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>2048 Game!</title>
+    <title>Numbers Game</title>
 
     <style>
+        body {
+            text-align: center;
+            font-family: Georgia, serif;
+        }
+        .container {
+            max-width: 403px;
+            margin: auto;
+        }
+        #info {
+            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        #info-score {
+            text-align: left;
+        }
+        #info-turn {
+            text-align: right;
+        }
         #over {
             display: none;
+            color: red;
+            font-size: 25px;
+            margin-bottom: 10px;
         }
         .field {
             font-size: 0px;
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            grid-gap: 1px;
         }
         .row {
             padding: 2px;
         }
         .cell {
             background: #ffffff;
-            height: 100px;
-            width: 100px;
-            display: inline-block;
             text-align: center;
-            border: 2px solid black;
-            margin-right: 4px;
+            border: 1px solid black;
             vertical-align: middle;
             display: inline-flex;
             justify-content: center;
@@ -80,8 +102,7 @@
                     const x = Math.floor(index / 4);
                     const y = index % 4;
 
-                    const val = obj.gameField[x][y]
-                    //cell.innerHTML = '<span>' + (val == 0 ? '' : val) + '</span>';
+                    const val = obj.gameField[x][y];
                     cell.innerText = val == 0 ? '' : val;
                     cell.style.background = getColoring(val);
                     resizeToFit(cell);
@@ -148,32 +169,28 @@
     </script>
 </head>
 <body>
-    <h1>
-        2048 Game!
-    </h1>
-    <div>Total score: <span id="score">0</span></div>
-    <div>Turn: <span id="turn">0</span></div>
-    <div id="over">Game Over!</div>
-    <div class="field">
-        <div class="row">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
+    <div class="container">
+        <h1>
+            Numbers Game
+        </h1>
+        <div id="info">
+            <div id="info-score">Total score: <span id="score">0</span></div>
+            <div id="info-turn">Turn: <span id="turn">0</span></div>
         </div>
-        <div class="row">
+        <div id="over">Game Over!</div>
+        <div class="field">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
-        </div>
-        <div class="row">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell" ></div>
             <div class="cell"></div>
-        </div>
-        <div class="row">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
