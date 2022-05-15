@@ -8,16 +8,25 @@
         #over {
             display: none;
         }
+        .field {
+            font-size: 0px;
+        }
         .row {
-            padding: 4px;
+            padding: 2px;
         }
         .cell {
-            background: #dadab3;
+            background: #ffffff;
             height: 100px;
             width: 100px;
             display: inline-block;
-            font-size: 5em;
             text-align: center;
+            border: 2px solid black;
+            margin-right: 4px;
+            vertical-align: middle;
+            display: inline-flex;
+            justify-content: center;
+            align-content: center;
+            flex-direction: column;
         }
     </style>
 
@@ -27,6 +36,39 @@
             const turn = document.getElementById("turn");
             const cells = document.getElementsByClassName("cell");
             var gameId;
+
+            function getColoring(val) {
+                const colorDict = {
+                    0: "#ffffff",
+                    2: "#dadab3",
+                    4: "#dada9b",
+                    8: "#dada7d",
+                    16: "#dada69",
+                    32: "#dada5a",
+                    64: "#dada4b",
+                    128: "#dada32",
+                    256: "#dada19",
+                    512: "#dada00",
+                    1024: "#ffc107",
+                    2048: "#ff9800"
+                };
+
+                return val >= 2048 ? colorDict[2048] : colorDict[val];
+            }
+
+            function resizeToFit(cell) {
+                const defaultFontSize = 80;
+                const fontSizeDict = {
+                    0: 100,
+                    1: 100,
+                    2: 100,
+                    3: 70,
+                    4: 50,
+                    5: 25
+                };
+
+                cell.style.fontSize = (fontSizeDict[cell.innerText.length] * parseFloat(defaultFontSize) / 100) + 'px';
+            }
 
             function reloadField(obj) {
                 gameId = obj.gameId;
@@ -38,12 +80,16 @@
                     const x = Math.floor(index / 4);
                     const y = index % 4;
 
-                    cell.innerText = obj.gameField[x][y];
+                    const val = obj.gameField[x][y]
+                    //cell.innerHTML = '<span>' + (val == 0 ? '' : val) + '</span>';
+                    cell.innerText = val == 0 ? '' : val;
+                    cell.style.background = getColoring(val);
+                    resizeToFit(cell);
                 });
 
                 if (obj.gameOver == true) {
                     document.getElementById("over").style.display = 'inline';
-                    document.onkeydown = function(e) { e.preventDefault(); }
+                    document.onkeydown = function(e) { }
                 }
             }
 
