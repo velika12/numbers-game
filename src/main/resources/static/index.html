@@ -5,18 +5,23 @@
     <title>Numbers Game</title>
 
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
             text-align: center;
             font-family: Georgia, serif;
+            overflow: hidden; // to disable mobile scroll on swipe
         }
         .container {
-            max-width: 403px;
+            max-width: 603px;
             margin: auto;
         }
         #info {
             margin-bottom: 10px;
             display: grid;
             grid-template-columns: 1fr 1fr;
+            font-size: 25px;
         }
         #info-score {
             text-align: left;
@@ -30,11 +35,11 @@
             font-size: 25px;
             margin-bottom: 10px;
         }
-        .field {
+        #field {
             font-size: 0px;
             display: grid;
-            grid-template-columns: repeat(4, 100px);
-            grid-template-rows: repeat(4, 100px);
+            grid-template-columns: repeat(4, 150px);
+            grid-template-rows: repeat(4, 150px);
             grid-gap: 1px;
         }
         .row {
@@ -111,6 +116,8 @@
                 if (obj.gameOver == true) {
                     document.getElementById("over").style.display = 'inline';
                     document.onkeydown = function(e) { }
+                    field.addEventListener('touchstart', e => {});
+                    field.addEventListener('touchend', e => {});
                 }
             }
 
@@ -164,6 +171,43 @@
                 e.preventDefault(); // prevent the default action (scroll / move caret)
             };
 
+            let touchstartX = 0;
+            let touchendX = 0;
+            let touchstartY = 0;
+            let touchendY = 0;
+
+            const body = document.getElementsByTagName('body')[0];
+
+            function handleGesture() {
+                const dX = touchendX - touchstartX;
+                const dY = touchendY - touchstartY;
+
+                if (Math.abs(dX) > Math.abs(dY)) {
+                    if (dX > 0) {
+                        play("RIGHT");
+                    } else {
+                        play("LEFT");
+                    }
+                } else {
+                    if (dY > 0) {
+                        play("DOWN");
+                    } else {
+                        play("UP");
+                    }
+                }
+            }
+
+            body.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX;
+                touchstartY = e.changedTouches[0].screenY;
+            });
+
+            body.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                touchendY = e.changedTouches[0].screenY;
+                handleGesture();
+            });
+
             start();
         }
     </script>
@@ -178,7 +222,7 @@
             <div id="info-turn">Turn: <span id="turn">0</span></div>
         </div>
         <div id="over">Game Over!</div>
-        <div class="field">
+        <div id="field">
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
@@ -189,7 +233,7 @@
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
-            <div class="cell" ></div>
+            <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
             <div class="cell"></div>
