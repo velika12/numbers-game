@@ -1,0 +1,50 @@
+html, body {
+    height: 100%;
+}
+body {
+    text-align: center;
+    font-family: Georgia, serif;
+    overflow: hidden; // to disable mobile scroll on swipe
+}
+.container {
+    max-width: 603px;
+    margin: auto;
+}
+#info {
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 25px;
+}
+#info-score {
+    text-align: left;
+}
+#info-turn {
+    text-align: right;
+}
+#over {
+    display: none;
+    color: red;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+#field {
+    font-size: 0px;
+    display: grid;
+    grid-template-columns: repeat(4, 150px);
+    grid-template-rows: repeat(4, 150px);
+    grid-gap: 1px;
+}
+.row {
+    padding: 2px;
+}
+.cell {
+    background: #ffffff;
+    text-align: center;
+    border: 1px solid black;
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
