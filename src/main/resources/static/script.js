@@ -24,7 +24,7 @@ window.onload = function() {
     }
 
     function resizeToFit(cell) {
-        const defaultFontSize = 80;
+        const defaultFontSize = Number(window.getComputedStyle(document.getElementById("field")).getPropertyValue("font-size").match(/\d+/)[0]);
         const fontSizeDict = {
             0: 100,
             1: 100,

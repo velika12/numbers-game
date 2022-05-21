@@ -3,18 +3,17 @@ html, body {
 }
 body {
     text-align: center;
-    font-family: Georgia, serif;
+    font-family: Arial Narrow, sans-serif;
     overflow: hidden; // to disable mobile scroll on swipe
 }
 .container {
-    max-width: 603px;
-    margin: auto;
+    width: 100%;
 }
 #info {
     margin-bottom: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    font-size: 25px;
+    font-size: 16px;
 }
 #info-score {
     text-align: left;
@@ -29,11 +28,15 @@ body {
     margin-bottom: 10px;
 }
 #field {
+    width: 90vmin;
+    height: 90vmin;
+    margin: auto;
     font-size: 0px;
     display: grid;
-    grid-template-columns: repeat(4, 150px);
-    grid-template-rows: repeat(4, 150px);
+    grid-template-columns: repeat(4, calc(25% - 0.75px));
+    grid-template-rows: repeat(4, calc(25% - 0.75px));
     grid-gap: 1px;
+    font-size: 60px;
 }
 .row {
     padding: 2px;
@@ -47,4 +50,48 @@ body {
     justify-content: center;
     align-content: center;
     flex-direction: column;
+}
+
+@media only screen and (orientation: landscape) {
+    #info {
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-size: 20px;
+    }
+    #field {
+        width: 50vmin;
+        height: 50vmin;
+        margin: auto;
+        font-size: 0px;
+        display: grid;
+        grid-template-columns: repeat(4, calc(25% - 0.75px));
+        grid-template-rows: repeat(4, calc(25% - 0.75px));
+        grid-gap: 1px;
+        font-size: 35px;
+    }
+}
+
+@media only screen and (min-width:992px) {
+    .container {
+        width: 50vh;
+        margin: auto;
+    }
+    #info {
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-size: 25px;
+    }
+    #field {
+        width: 50vmin;
+        height: 50vmin;
+        margin: auto;
+        font-size: 0px;
+        display: grid;
+        grid-template-columns: repeat(4, calc(25% - 0.75px));
+        grid-template-rows: repeat(4, calc(25% - 0.75px));
+        grid-gap: 1px;
+        font-size: 80px;
+    }
 }
